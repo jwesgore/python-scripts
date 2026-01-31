@@ -40,7 +40,9 @@ def get_movies_folder() -> Path:
 def plex_update_libraries() -> bool:
     '''atttempt to run "Update Libraries" on Plex'''
     try:
-        with open("plex_data.yml") as f:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        plex_data_path = os.path.join(script_dir, "plex_data.yml")
+        with open(plex_data_path) as f:
             plex_data = yaml.load(f, Loader=yaml.FullLoader)
         url = f"{plex_data['plex_address']}/library/sections/1/refresh?X-Plex-Token={plex_data['plex_token']}"
         requests.get(url)
